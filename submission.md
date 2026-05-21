@@ -82,3 +82,26 @@ Step 2 originally combined `done` + `user_id`, but `user_id` requires the users 
 
 **Commit:** `4673373` — "Add done boolean column to todos as schema foundation for completion tracking"
 (Full URL: GitHub repo URL + `/commit/4673373`)
+
+### Bad to Good Prompt Rewrite
+
+**The rough edge found:** `app/models/todo.rb` has no validations, so submitting a blank description silently creates a todo with an empty string. The form partial (`app/views/todos/_form.html.erb` lines 2–12) already has a full error-display block that is dead code — it never renders because no model errors are ever generated.
+
+---
+
+**Bad version:**
+"fix the bug in todos"
+
+---
+
+**Good version:**
+
+1. **Context:** `app/models/todo.rb` (currently `class Todo < ApplicationRecord; end` with no validations) and `app/views/todos/_form.html.erb` (has an error-display block at lines 2–12 that is never triggered).
+
+2. **Task:** Add `validates :description, presence: true` to `app/models/todo.rb` so that submitting a blank description fails validation and the existing error UI activates.
+
+3. **Expected vs actual:** Expected — submitting the new/edit form with a blank description re-renders the form and displays "Description can't be blank" in the red error block. Actual — the form saves successfully and redirects to the show page with no feedback.
+
+4. **Constraints:** Touch only `app/models/todo.rb`. Do not add gems, do not change the form partial or controller — the error-display infrastructure and the `format.html { render :new, status: :unprocessable_content }` branch in the controller already exist and just need the validation to trigger them.
+
+5. **Done when:** `bin/rails test test/controllers/todos_controller_test.rb` passes with a new test asserting that `POST /todos` with `description: ""` returns HTTP 422 and re-renders the form; and manually submitting a blank form in the browser shows the red error message.
