@@ -1,0 +1,12 @@
+---
+description: Security rules for the sample todo app
+alwaysApply: true
+---
+
+- Never log secrets, API keys, credentials, or sensitive user data via `Rails.logger`, `puts`, or any other output method
+- Never call `eval`, `instance_eval`, `class_eval`, or `send` on user-supplied input — this includes `params`, query strings, and request headers
+- Never use `html_safe` or `raw` on untrusted strings; ERB escapes output automatically, do not bypass it
+- Use only parameterized ActiveRecord queries; never interpolate user input directly into SQL strings (no `where("col = '#{params[:x]}'")`)
+- Never disable CSRF protection — `protect_from_forgery` in `ApplicationController` must remain active
+- Never disable mass assignment protection; always use `params.expect` strong parameters to allowlist attributes
+- Run `bin/brakeman` before committing any security-sensitive change and resolve all warnings before merging

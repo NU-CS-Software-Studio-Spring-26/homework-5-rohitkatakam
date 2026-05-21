@@ -1,0 +1,14 @@
+---
+description: Rails 8 conventions for the sample todo app
+alwaysApply: true
+---
+
+- Use `bin/rails generate` for all scaffolds, models, controllers, and migrations — never write boilerplate by hand
+- Migrations must be reversible using the `change` method; use explicit `up`/`down` only when `change` cannot express the operation
+- Use `params.expect(model: [:field])` for strong parameters — this is the Rails 8 API; do not use `params.require.permit`
+- Prefer Turbo Streams and Turbo Frames for dynamic page updates over writing custom JavaScript
+- Add client-side behavior via Stimulus controllers placed in `app/javascript/controllers/`; import them via importmap, not bundlers
+- The only application table is `todos` (description, due_date, timestamps); scope all schema changes to this domain
+- JSON responses go in `.json.jbuilder` view files — do not use inline `render json:` in controllers
+- Shared HTML fragments belong in `app/views/<resource>/_partial.html.erb` (e.g., `_form.html.erb`, `_todo.html.erb`)
+- Inherit from `ApplicationController` for all controllers; `ApplicationController` enforces `allow_browser versions: :modern`
