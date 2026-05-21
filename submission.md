@@ -4,4 +4,4 @@
 
 ## Part 1
 
-(will paste cursorrules link here)
+`.cursorignore` file on github: https://github.com/NU-CS-Software-Studio-Spring-26/homework-5-rohitkatakam/blob/hw5/.cursorignore
