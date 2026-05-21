@@ -4,4 +4,10 @@
     <%= todo.description %>
   </p>
 
+  <%= button_to toggle_priority_todo_path(todo),
+      method: :patch,
+      data: { turbo_stream: true },
+      class: "btn btn-sm" do %>
+    <%= todo.high_priority? ? "⭐" : "☆" %>
+  <% end %>
 </div>

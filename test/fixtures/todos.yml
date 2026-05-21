@@ -2,6 +2,10 @@
 
 one:
   description: MyString
+  done: false
+  high_priority: false
 
 two:
   description: MyString
+  done: false
+  high_priority: false

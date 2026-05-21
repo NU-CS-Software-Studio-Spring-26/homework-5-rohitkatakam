@@ -1,0 +1,3 @@
+<%= turbo_stream.replace "todo_#{@todo.id}" do %>
+  <%= render partial: "todos/todo", locals: { todo: @todo } %>
+<% end %>
